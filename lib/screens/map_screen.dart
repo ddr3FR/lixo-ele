@@ -2,36 +2,85 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import '../models/local.dart';
 import 'package:http/http.dart' as http;
+import 'package:geolocator/geolocator.dart';
 
 class MapPage extends StatefulWidget {
+  final Local local; // Destino
+
+  const MapPage({Key? key, required this.local}) : super(key: key);
+
   @override
   _MapPageState createState() => _MapPageState();
 }
 
 class _MapPageState extends State<MapPage> {
   final MapController _mapController = MapController();
-  LatLng origem = LatLng(-23.55052, -46.633308); // Exemplo: São Paulo
-  LatLng destino = LatLng(-23.564, -46.653); // Exemplo: outro ponto em SP
-  List<LatLng> rota = [];
+  late LatLng destination;
+  List<LatLng> routePoints = [];
+  LatLng? currentPosition; // Posição do usuário
+  bool loadingLocation = true;
 
-  Future<void> _buscarRota() async {
-    const String apiKey = 'SUA_CHAVE_DA_OPENROUTESERVICE';
+  @override
+  void initState() {
+    super.initState();
+    destination = LatLng(widget.local.latitude, widget.local.longitude);
+    _determinePosition();
+  }
+
+  // Solicita a posição atual do usuário utilizando o Geolocator
+  Future<void> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Verifica se o serviço de localização está ativado
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Os serviços de localização estão desativados.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Permissão de localização negada.');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error('As permissões de localização estão permanentemente negadas.');
+    }
+
+    // Obtém a posição atual
+    Position position = await Geolocator.getCurrentPosition();
+    setState(() {
+      currentPosition = LatLng(position.latitude, position.longitude);
+      loadingLocation = false;
+    });
+
+    _fetchRoute();
+  }
+
+  // Busca a rota utilizando a API OSRM
+  Future<void> _fetchRoute() async {
+    if (currentPosition == null) return;
+
     final String url =
-        'https://api.openrouteservice.org/v2/directions/driving-car?api_key=$apiKey&start=${origem.longitude},${origem.latitude}&end=${destino.longitude},${destino.latitude}';
+        'https://router.project-osrm.org/route/v1/driving/${currentPosition!.longitude},${currentPosition!.latitude};${destination.longitude},${destination.latitude}?overview=full&geometries=geojson';
 
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        final List<dynamic> coordenadas =
-            data['routes'][0]['geometry']['coordinates'];
-
+        final data = jsonDecode(response.body);
+        final List<dynamic> coords = data['routes'][0]['geometry']['coordinates'];
         setState(() {
-          rota = coordenadas.map((c) => LatLng(c[1], c[0])).toList();
+          routePoints = coords
+              .map((c) => LatLng(c[1].toDouble(), c[0].toDouble()))
+              .toList();
         });
       } else {
-        print('Erro na resposta: ${response.statusCode}');
+        print('Erro ao buscar rota: ${response.statusCode}');
       }
     } catch (e) {
       print('Erro ao buscar rota: $e');
@@ -39,43 +88,53 @@ class _MapPageState extends State<MapPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _buscarRota();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    // Define o centro do mapa como o ponto médio entre a posição atual e o destino
+    LatLng mapCenter;
+    if (currentPosition != null) {
+      mapCenter = LatLng(
+        (currentPosition!.latitude + destination.latitude) / 2,
+        (currentPosition!.longitude + destination.longitude) / 2,
+      );
+    } else {
+      mapCenter = destination;
+    }
+
     return Scaffold(
-      appBar: AppBar(title: Text('Mapa com Rota')),
-      body: FlutterMap(
-        mapController: _mapController,
-        options: MapOptions(center: origem, zoom: 13.0),
-        children: [
-          TileLayer(
-            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            subdomains: ['a', 'b', 'c'],
-          ),
-          MarkerLayer(
-            markers: [
-              Marker(
-                point: origem,
-                child: Icon(Icons.location_on, color: Colors.red, size: 30),
-              ),
-              Marker(
-                point: destino,
-                child: Icon(Icons.flag, color: Colors.blue, size: 30),
-              ),
-            ],
-          ),
-          if (rota.isNotEmpty)
-            PolylineLayer(
-              polylines: [
-                Polyline(points: rota, color: Colors.blue, strokeWidth: 4.0),
+      appBar: AppBar(title: Text(widget.local.nome)),
+      body: loadingLocation
+          ? const Center(child: CircularProgressIndicator())
+          : FlutterMap(
+              mapController: _mapController,
+              options: MapOptions(center: mapCenter, zoom: 15.0),
+              children: [
+                TileLayer(
+                  urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  subdomains: const ['a', 'b', 'c'],
+                ),
+                MarkerLayer(
+                  markers: [
+                    // Marcador para a localização atual do usuário
+                    Marker(
+                      point: currentPosition!,
+                      child: const Icon(Icons.my_location, color: Colors.green, size: 30),
+                    ),
+                    // Marcador para o destino
+                    Marker(
+                      point: destination,
+                      child: const Icon(Icons.location_on, color: Colors.red, size: 30),
+                    ),
+                  ],
+                ),
+                // Desenha a rota, se disponível
+                if (routePoints.isNotEmpty)
+                  PolylineLayer(
+                    polylines: [
+                      Polyline(points: routePoints, color: Colors.blue, strokeWidth: 4.0),
+                    ],
+                  ),
               ],
             ),
-        ],
-      ),
     );
   }
 }

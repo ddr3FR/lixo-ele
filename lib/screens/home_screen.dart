@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lixo_ele/screens/locais_screen.dart';
 import '../widgets/menu_button.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -9,36 +10,94 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // false: modo preto e branco, true: modo colorido
   bool isColorMode = false;
 
-  // Função para tratar as ações do menu (PopupMenuButton)
+  void _mostrarDialogAjuda(String titulo, String texto) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(titulo),
+          content: Text(
+            texto,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("Fechar"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _mostrarTextoAjudar() {
+    _mostrarDialogAjuda(
+      "Central de Ajuda",
+      "Bem-vindo à Central de Ajuda! Aqui você encontra respotas rápidas para dúvidas comuns, tutorias e orientações sobre como usar o nosso aplicativo.\n\n "
+          "     Perguntas Frequentes(FAQ): consulte soluções para o principal desafios.\nTutorias: Aprenda a usar funcionalidades com o passo a passo simples.\n\nContato: Precisou de ajuda personalizada? Fale conosco via Email(projetoflask100@gmail.com), chat ou telefone (Horário comercial).\n\n"
+          "Não encontrou o que procurava? Use a barra de Pesquisa do Google. Não estamos para simplificar sua experiência!",
+    );
+  }
+
+  void _mostrarTextoAnuncio() {
+    _mostrarDialogAjuda(
+      "Versão Sem Anúncio",
+      "Desfrute de uma experiência livre de interrupções com a versão sem anúncios do Lixo Ele!\n\n "
+          "     Navegação fluida: Aproveite o app sem pausas ou distrações.\n\nVelocidade máxima: Carregamento mais rápido e desempenho otimizado\n\nApenas o essencial: Foco total no que realmente importa para você.\n\n"
+          "Como adquirir:\nAcesse Configurações > Assinaturas ou visite nossa loja de apps. Escolha entre assinatura mensal/anual ou compra única, conforme disponível.",
+    );
+  }
+
+  void _mostrarTextoDivulgue() {
+    _mostrarDialogAjuda(
+      "Divulgue",
+      "Sabe de algum ponto de coleta que não esteja sinalizado no nosso aplicativo.\n\nEntre em contato clicando aqui para nos ajudar a divulgar esse novo ponto.",
+    );
+  }
+
+  void _mostrarTextoNotificacao() {
+    _mostrarDialogAjuda(
+      "Central de Notificações",
+      "Mantenha-se informado(a) e no controle! Aqui você gerencia quais alertas receber, personaliza preferências e garante que só o que é relevante chegue até você.",
+    );
+  }
+
+  void _mostrarTextoAvaliar() {
+    _mostrarDialogAjuda(
+      "Avaliação",
+      "Nem precisa, nos dois sabemos que somos o melhor em ser nos mesmos.\n\n"
+          "⭐⭐⭐⭐⭐",
+    );
+  }
+
+  void _mostrarTextoSuporte() {
+    _mostrarDialogAjuda(
+      "Suporte",
+      "Precisando de ajuda? Estamos aqui para resolver qualquer desafio, dúvida ou sugestão que você tenha!\n\nComo nos contatar:\n"
+          "E-mail: Envie detalhes para [suporte@nomedoapp.com] e respondemos em até 24h.\nChat online: Disponível no app em horário comercial (seg-sex, 8h às 18h).\nTelefone: [21 4002-8922] (seg-sex, 6h às 12h).",
+    );
+  }
+
   void _onMenuSelected(String opcao) {
     switch (opcao) {
       case 'central_ajuda':
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Central de ajuda')));
+        _mostrarTextoAjudar();
         break;
       case 'versao_sem_anuncio':
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Versão sem anúncio')));
+        _mostrarTextoAnuncio();
         break;
       case 'central_notificacoes':
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Central de notificações')),
-        );
+        _mostrarTextoNotificacao();
         break;
       case 'divulger':
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Divulger')));
+        _mostrarTextoDivulgue();
         break;
       case 'avalie_nos':
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Avalie-nos')));
+        _mostrarTextoAvaliar();
         break;
       case 'configuracoes':
         ScaffoldMessenger.of(
@@ -46,9 +105,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ).showSnackBar(const SnackBar(content: Text('Configurações')));
         break;
       case 'suporte':
-        ScaffoldMessenger.of(
+        _mostrarTextoSuporte();
+        break;
+      case 'locais':
+        Navigator.push(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Suporte')));
+          MaterialPageRoute(builder: (context) => LocaisScreen()),
+        );
         break;
     }
   }
@@ -59,7 +122,6 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            // Imagem de fundo que muda conforme o modo
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -72,10 +134,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            // Conteúdo do aplicativo
             Column(
               children: [
-                // Barra superior personalizada
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,
@@ -83,7 +143,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: Row(
                     children: [
-                      // Menu de opções (PopupMenuButton)
                       PopupMenuButton<String>(
                         icon: const Icon(Icons.menu),
                         onSelected: _onMenuSelected,
@@ -117,11 +176,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               value: 'suporte',
                               child: Text('Suporte'),
                             ),
+                            const PopupMenuItem(
+                              value: 'locais',
+                              child: Text('Venha conhecer os Locais de coleta'),
+                            ),
                           ];
                         },
                       ),
                       const SizedBox(width: 8),
-                      // Barra de busca
                       Expanded(
                         child: Container(
                           height: 40,
@@ -141,7 +203,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      // Switch para alternar entre modos
                       Row(
                         children: [
                           const Text("B&W"),
@@ -160,13 +221,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 40),
-                // Título principal
                 const Text(
                   'Nome do Aplicativo',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const Spacer(),
-                // Botões com popups (usando widget customizado)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -176,11 +235,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           'LIXO ELETRÔNICO\nÉ o lixo físico, também conhecido como e-lixo. São as peças de computador como teclado, placas e monitor. Celular e tablet quebradas, assim como notebooks, também são lixos eletrônicos.\n\nLIXO DIGITAL\nSão os dados (conteúdo virtual) que deixaram de ser úteis ou não queremos mais, como e-mails, fotos, arquivos ou aquele joguinho que deletamos do celular.',
                     ),
                     MenuButton(
-                      label: 'A importancia Do Descarte No Local Correto',
-                      popupText: 'Aqui vai o texto para Inteligência Coletiva',
+                      label: 'A importância do Descarte no Local Correto',
+                      popupText:
+                          'O descarte adequado do lixo eletrônico é essencial para proteger o planeta, garantir saúde pública e promover sustentabilidade. Pequenas ações individuais, somadas a políticas públicas e responsabilidade corporativa, podem transformar esse desafio em uma oportunidade para um futuro mais equilibrado.',
                     ),
                     MenuButton(
-                      label: 'Conheça O Projeto',
+                      label: 'Conheça o Projeto',
                       popupText: 'Aqui vai o texto para Comunica Positivo',
                     ),
                   ],
