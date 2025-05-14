@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text("Fechar"),
+              child: const Text('Fechar'),
             ),
           ],
         );
@@ -36,53 +36,60 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _mostrarTextoAjudar() {
     _mostrarDialogAjuda(
-      "Central de Ajuda",
-      "Bem-vindo à Central de Ajuda! Aqui você encontra respotas rápidas para dúvidas comuns, tutorias e orientações sobre como usar o nosso aplicativo.\n\n "
-          "     Perguntas Frequentes(FAQ): consulte soluções para o principal desafios.\nTutorias: Aprenda a usar funcionalidades com o passo a passo simples.\n\nContato: Precisou de ajuda personalizada? Fale conosco via Email(projetoflask100@gmail.com), chat ou telefone (Horário comercial).\n\n"
-          "Não encontrou o que procurava? Use a barra de Pesquisa do Google. Não estamos para simplificar sua experiência!",
+      'Central de Ajuda',
+      'Bem-vindo à Central de Ajuda! Aqui você encontra respostas rápidas para dúvidas comuns, tutoriais e orientações sobre como usar o nosso aplicativo.\n\n'
+          'Perguntas Frequentes (FAQ): consulte soluções para os principais desafios.\n'
+          'Tutoriais: aprenda a usar funcionalidades com passo a passo simples.\n\n'
+          'Contato: precisou de ajuda personalizada? Fale conosco via email (projetoflask100@gmail.com), chat ou telefone (horário comercial).',
     );
   }
 
   void _mostrarTextoAnuncio() {
     _mostrarDialogAjuda(
-      "Versão Sem Anúncio",
-      "Desfrute de uma experiência livre de interrupções com a versão sem anúncios do Lixo Ele!\n\n "
-          "     Navegação fluida: Aproveite o app sem pausas ou distrações.\n\nVelocidade máxima: Carregamento mais rápido e desempenho otimizado\n\nApenas o essencial: Foco total no que realmente importa para você.\n\n"
-          "Como adquirir:\nAcesse Configurações > Assinaturas ou visite nossa loja de apps. Escolha entre assinatura mensal/anual ou compra única, conforme disponível.",
-    );
-  }
-
-  void _mostrarTextoDivulgue() {
-    _mostrarDialogAjuda(
-      "Divulgue",
-      "Sabe de algum ponto de coleta que não esteja sinalizado no nosso aplicativo.\n\nEntre em contato clicando aqui para nos ajudar a divulgar esse novo ponto.",
+      'Versão Sem Anúncio',
+      'Desfrute de uma experiência livre de interrupções com a versão sem anúncios do Lixo Ele!\n\n'
+          'Navegação fluida: aproveite o app sem pausas ou distrações.\n'
+          'Velocidade máxima: carregamento mais rápido e desempenho otimizado.\n'
+          'Apenas o essencial: foco total no que realmente importa para você.\n\n'
+          'Como adquirir: acesse Configurações > Assinaturas ou visite nossa loja de apps. Escolha entre assinatura mensal/anual ou compra única.',
     );
   }
 
   void _mostrarTextoNotificacao() {
     _mostrarDialogAjuda(
-      "Central de Notificações",
-      "Mantenha-se informado(a) e no controle! Aqui você gerencia quais alertas receber, personaliza preferências e garante que só o que é relevante chegue até você.",
+      'Central de Notificações',
+      'Mantenha-se informado(a) e no controle! Aqui você gerencia quais alertas receber, personaliza preferências e garante que só o que é relevante chegue até você.',
+    );
+  }
+
+  void _mostrarTextoDivulgue() {
+    _mostrarDialogAjuda(
+      'Divulgue',
+      'Sabe de algum ponto de coleta que não esteja sinalizado no nosso aplicativo?\n\n'
+          'Entre em contato clicando aqui para nos ajudar a divulgar esse novo ponto.',
     );
   }
 
   void _mostrarTextoAvaliar() {
     _mostrarDialogAjuda(
-      "Avaliação",
-      "Nem precisa, nos dois sabemos que somos o melhor em ser nos mesmos.\n\n"
-          "⭐⭐⭐⭐⭐",
+      'Avaliação',
+      'Nem precisa, nos dois sabemos que somos o melhor em ser nós mesmos.\n\n⭐⭐⭐⭐⭐',
     );
   }
 
   void _mostrarTextoSuporte() {
     _mostrarDialogAjuda(
-      "Suporte",
-      "Precisando de ajuda? Estamos aqui para resolver qualquer desafio, dúvida ou sugestão que você tenha!\n\nComo nos contatar:\n"
-          "E-mail: Envie detalhes para [suporte@nomedoapp.com] e respondemos em até 24h.\nChat online: Disponível no app em horário comercial (seg-sex, 8h às 18h).\nTelefone: [21 4002-8922] (seg-sex, 6h às 12h).",
+      'Suporte',
+      'Precisando de ajuda? Estamos aqui para resolver qualquer desafio, dúvida ou sugestão que você tenha!\n\n'
+          'Como nos contatar:\n'
+          'E-mail: suporte@nomedoapp.com (resposta em até 24h).\n'
+          'Chat online: disponível no app em horário comercial (seg-sex, 8h às 18h).\n'
+          'Telefone: (21) 4002-8922 (seg-sex, 6h às 12h).',
     );
   }
 
   void _onMenuSelected(String opcao) {
+    Navigator.of(context).pop(); // fecha o drawer
     switch (opcao) {
       case 'central_ajuda':
         _mostrarTextoAjudar();
@@ -93,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 'central_notificacoes':
         _mostrarTextoNotificacao();
         break;
-      case 'divulger':
+      case 'divulgar':
         _mostrarTextoDivulgue();
         break;
       case 'avalie_nos':
@@ -119,19 +126,67 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Color(0xFF0A6435)),
+              child: Text(
+                'Menu',
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.help_outline),
+              title: const Text('Central de ajuda'),
+              onTap: () => _onMenuSelected('central_ajuda'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.remove_red_eye_outlined),
+              title: const Text('Versão sem anúncio'),
+              onTap: () => _onMenuSelected('versao_sem_anuncio'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.notifications_outlined),
+              title: const Text('Central de notificações'),
+              onTap: () => _onMenuSelected('central_notificacoes'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.share),
+              title: const Text('Divulgue'),
+              onTap: () => _onMenuSelected('divulgar'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.star_border),
+              title: const Text('Avalie-nos'),
+              onTap: () => _onMenuSelected('avalie_nos'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings_outlined),
+              title: const Text('Configurações'),
+              onTap: () => _onMenuSelected('configuracoes'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.support_agent),
+              title: const Text('Suporte'),
+              onTap: () => _onMenuSelected('suporte'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.location_on_outlined),
+              title: const Text('Venha conhecer os Locais de coleta'),
+              onTap: () => _onMenuSelected('locais'),
+            ),
+          ],
+        ),
+      ),
       body: SafeArea(
         child: Stack(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                    isColorMode
-                        ? 'assets/images/fundobinario.gif'
-                        : 'assets/images/binarios.gif',
-                  ),
-                  fit: BoxFit.cover,
-                ),
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/imagemSerRecicla.png',
+                fit: BoxFit.cover,
               ),
             ),
             Column(
@@ -143,94 +198,37 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: Row(
                     children: [
-                      PopupMenuButton<String>(
-                        icon: const Icon(Icons.menu),
-                        onSelected: _onMenuSelected,
-                        itemBuilder: (BuildContext context) {
-                          return [
-                            const PopupMenuItem(
-                              value: 'central_ajuda',
-                              child: Text('Central de ajuda'),
+                      Builder(
+                        builder:
+                            (context) => IconButton(
+                              icon: const Icon(Icons.menu),
+                              color:
+                                  isColorMode
+                                      ? const Color(0xFF0A6435)
+                                      : Colors.black,
+                              onPressed:
+                                  () => Scaffold.of(context).openDrawer(),
                             ),
-                            const PopupMenuItem(
-                              value: 'versao_sem_anuncio',
-                              child: Text('Versão sem anúncio'),
-                            ),
-                            const PopupMenuItem(
-                              value: 'central_notificacoes',
-                              child: Text('Central de notificações'),
-                            ),
-                            const PopupMenuItem(
-                              value: 'divulger',
-                              child: Text('Divulger'),
-                            ),
-                            const PopupMenuItem(
-                              value: 'avalie_nos',
-                              child: Text('Avalie-nos'),
-                            ),
-                            const PopupMenuItem(
-                              value: 'configuracoes',
-                              child: Text('Configurações'),
-                            ),
-                            const PopupMenuItem(
-                              value: 'suporte',
-                              child: Text('Suporte'),
-                            ),
-                            const PopupMenuItem(
-                              value: 'locais',
-                              child: Text('Venha conhecer os Locais de coleta'),
-                            ),
-                          ];
-                        },
                       ),
                       const SizedBox(width: 8),
-                      Expanded(
-                        child: Container(
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const TextField(
-                            decoration: InputDecoration(
-                              hintText: 'Busca',
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: 16,
-                              ),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Row(
-                        children: [
-                          const Text("B&W"),
-                          Switch(
-                            value: isColorMode,
-                            onChanged: (bool value) {
-                              setState(() {
-                                isColorMode = value;
-                              });
-                            },
-                          ),
-                          const Text("Color"),
-                        ],
-                      ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 40),
-                const Text(
-                  'Nome do Aplicativo',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                Text(
+                  'Ser Recicla',
+                  style: TextStyle(
+                    fontSize: 60,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF0A6435),
+                  ),
                 ),
                 const Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     MenuButton(
-                      label: 'Lixo Digital ≠ Lixo Eletronico',
+                      label: 'Lixo Digital ≠ Lixo Eletrônico',
                       popupText:
                           'LIXO ELETRÔNICO\nÉ o lixo físico, também conhecido como e-lixo. São as peças de computador como teclado, placas e monitor. Celular e tablet quebradas, assim como notebooks, também são lixos eletrônicos.\n\nLIXO DIGITAL\nSão os dados (conteúdo virtual) que deixaram de ser úteis ou não queremos mais, como e-mails, fotos, arquivos ou aquele joguinho que deletamos do celular.',
                     ),

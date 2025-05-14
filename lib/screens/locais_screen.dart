@@ -6,6 +6,30 @@ import '../models/local.dart';
 class LocaisScreen extends StatelessWidget {
   final List<Local> locais = [
     Local(
+      nome: "UNAMA - Alcindo Cacela",
+      endereco: "Av. Alcindo Cacela, 287 - Umarizal, Belém - PA",
+      latitude: -1.4386125540152424,
+      longitude: -48.478426946833466,
+    ),
+    Local(
+      nome: "UNAMA - Ananindeua",
+      endereco: "BR 316, km 3, S/N - Coqueiro, Ananindeua - PA",
+      latitude: -1.387683897535828,
+      longitude: -48.41491122042828,
+    ),
+    Local(
+      nome: "UNAMA - Parque Shopping",
+      endereco: "Unnamed Road - Parque Verde, Belém - PA",
+      latitude: -1.3716186917438906,
+      longitude: -48.44715350116566,
+    ),
+    Local(
+      nome: "UNAMA - Gentil",
+      endereco: "Av. Gentil Bitencourt, 745 - Nazaré, Belém - PA,",
+      latitude: -1.4552811313148006,
+      longitude: -48.48615954440843,
+    ),
+    Local(
       nome: "Descarte Corretol",
       endereco: "Travessa Barao do Triunfo, 4596 - Marco, Belem - PA",
       latitude: -1.4400903028980505,
@@ -74,7 +98,9 @@ class LocaisScreen extends StatelessWidget {
     if (await canLaunchUrl(geoUri)) {
       await launchUrl(geoUri, mode: LaunchMode.externalApplication);
     } else {
-      final webUri = Uri.parse("https://www.google.com/maps/search/?api=1&query=$query");
+      final webUri = Uri.parse(
+        "https://www.google.com/maps/search/?api=1&query=$query",
+      );
       if (await canLaunchUrl(webUri)) {
         await launchUrl(webUri, mode: LaunchMode.externalApplication);
       } else {
