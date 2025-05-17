@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lixo_ele/screens/locais_screen.dart';
 import '../widgets/menu_button.dart';
+import 'package:lixo_ele/screens/createAluno.dart';
+import 'package:lixo_ele/screens/createReciclagem.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -114,10 +116,10 @@ class _HomeScreenState extends State<HomeScreen> {
       case 'suporte':
         _mostrarTextoSuporte();
         break;
-      case 'locais':
+      case 'recicla':
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => LocaisScreen()),
+          MaterialPageRoute(builder: (context) => CreateReciclagemScreen()),
         );
         break;
     }
@@ -173,9 +175,9 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () => _onMenuSelected('suporte'),
             ),
             ListTile(
-              leading: const Icon(Icons.location_on_outlined),
-              title: const Text('Venha conhecer os Locais de coleta'),
-              onTap: () => _onMenuSelected('locais'),
+              leading: const Icon(Icons.recycling),
+              title: const Text('Recicle Aqui'),
+              onTap: () => _onMenuSelected('recicla'),
             ),
           ],
         ),
@@ -228,9 +230,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     MenuButton(
-                      label: 'Lixo Digital ≠ Lixo Eletrônico',
-                      popupText:
-                          'LIXO ELETRÔNICO\nÉ o lixo físico, também conhecido como e-lixo. São as peças de computador como teclado, placas e monitor. Celular e tablet quebradas, assim como notebooks, também são lixos eletrônicos.\n\nLIXO DIGITAL\nSão os dados (conteúdo virtual) que deixaram de ser úteis ou não queremos mais, como e-mails, fotos, arquivos ou aquele joguinho que deletamos do celular.',
+                      label: 'Cadastra Aluno',
+                      onPressed: () {
+                        // Navegação substitui o popup
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CreateAlunoScreen(),
+                          ),
+                        );
+                      },
                     ),
                     MenuButton(
                       label: 'A importância do Descarte no Local Correto',
@@ -238,8 +247,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           'O descarte adequado do lixo eletrônico é essencial para proteger o planeta, garantir saúde pública e promover sustentabilidade. Pequenas ações individuais, somadas a políticas públicas e responsabilidade corporativa, podem transformar esse desafio em uma oportunidade para um futuro mais equilibrado.',
                     ),
                     MenuButton(
-                      label: 'Conheça o Projeto',
-                      popupText: 'Aqui vai o texto para Comunica Positivo',
+                      label: 'Venha conhecer os Locais de coleta',
+                      onPressed: () {
+                        // Navegação substitui o popup
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LocaisScreen(),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
