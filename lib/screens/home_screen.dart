@@ -3,6 +3,8 @@ import 'package:lixo_ele/screens/locais_screen.dart';
 import '../widgets/menu_button.dart';
 import 'package:lixo_ele/screens/createAluno.dart';
 import 'package:lixo_ele/screens/createReciclagem.dart';
+import 'package:lixo_ele/screens/PodiumListScreen.dart';
+import 'package:lixo_ele/screens/auth_screen.dart.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -119,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 'recicla':
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => CreateReciclagemScreen()),
+          MaterialPageRoute(builder: (context) => AuthPage()),
         );
         break;
     }
@@ -232,11 +234,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     MenuButton(
                       label: 'Cadastra Aluno',
                       onPressed: () {
-                        // Navegação substitui o popup
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CreateAlunoScreen(),
+                            builder: (context) => PodiumListScreen(),
                           ),
                         );
                       },
@@ -249,7 +250,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     MenuButton(
                       label: 'Venha conhecer os Locais de coleta',
                       onPressed: () {
-                        // Navegação substitui o popup
                         Navigator.push(
                           context,
                           MaterialPageRoute(

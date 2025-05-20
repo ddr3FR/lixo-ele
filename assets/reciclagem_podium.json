@@ -1,0 +1,83 @@
+[
+  {
+    "nomeAluno": "Gabriel Almeida",
+    "totalKg": 200,
+    "residuoMaisDeposito": {
+      "tipo": "Pilhas",
+      "kg": 80
+    }
+  },
+  {
+    "nomeAluno": "João Silva",
+    "totalKg": 150,
+    "residuoMaisDeposito": {
+      "tipo": "Plástico",
+      "kg": 120
+    }
+  },
+  {
+    "nomeAluno": "Maria Oliveira",
+    "totalKg": 135,
+    "residuoMaisDeposito": {
+      "tipo": "Papel",
+      "kg": 100
+    }
+  },
+  {
+    "nomeAluno": "Carlos Souza",
+    "totalKg": 128,
+    "residuoMaisDeposito": {
+      "tipo": "Vidro",
+      "kg": 90
+    }
+  },
+  {
+    "nomeAluno": "Ana Santos",
+    "totalKg": 115,
+    "residuoMaisDeposito": {
+      "tipo": "Metal",
+      "kg": 85
+    }
+  },
+  {
+    "nomeAluno": "Pedro Costa",
+    "totalKg": 105,
+    "residuoMaisDeposito": {
+      "tipo": "Orgânico",
+      "kg": 80
+    }
+  },
+  {
+    "nomeAluno": "Juliana Pereira",
+    "totalKg": 98,
+    "residuoMaisDeposito": {
+      "tipo": "Eletrônicos",
+      "kg": 70
+    }
+  },
+  {
+    "nomeAluno": "Lucas Fernandes",
+    "totalKg": 85,
+    "residuoMaisDeposito": {
+      "tipo": "Têxtil",
+      "kg": 60
+    }
+  },
+  {
+    "nomeAluno": "Fernanda Gomes",
+    "totalKg": 75,
+    "residuoMaisDeposito": {
+      "tipo": "Borracha",
+      "kg": 55
+    }
+  },
+  {
+    "nomeAluno": "Rafaela Martins",
+    "totalKg": 65,
+    "residuoMaisDeposito": {
+      "tipo": "Isopor",
+      "kg": 45
+    }
+  }
+  
+]
